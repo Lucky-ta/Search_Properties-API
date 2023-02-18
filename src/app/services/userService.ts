@@ -67,22 +67,33 @@ class UserService {
     };
   }
 
-  async edit(updatedUserData: IUserShape, userId: number): Promise<IRequestResponse> {
+  async edit(updatedUserData: Omit<IUserShape, "password">, userId: number): Promise<IRequestResponse> {
     const user = await this.userRepository.findById(userId);
 
-    if (!user) {
+    try {
+      if (!user) {
+        return {
+          status: 404,
+          data: { message: 'User not found' },
+        };
+      }
+
+
+      const updatedUser = await this.userRepository.edit(updatedUserData, userId);
+      console.log(updatedUser);
+
+      const token = generateToken(updatedUser);
+
       return {
-        status: 404,
-        data: { message: 'User not found' },
+        status: 200,
+        data: { token },
       };
+    } catch (error) {
+      return {
+        status: 400,
+        data: { message: "User already up to date" }
+      }
     }
-
-    const updatedUser = await this.userRepository.edit(updatedUserData, userId);
-
-    return {
-      status: 200,
-      data: { user: updatedUser },
-    };
   }
 
   async exclude(userId: number): Promise<IRequestResponse> {

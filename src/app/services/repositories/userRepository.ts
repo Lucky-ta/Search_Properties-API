@@ -19,8 +19,14 @@ class UserRepository {
         return await User.create(data);
     }
 
-    async edit(data: IUserShape, userId: number) {
-        return await User.update(data, { where: { id: userId } })
+    async edit(data: Omit<IUserShape, "password">, userId: number): Promise<IUserShape | null> {
+        const [rowsAffected] = await User.update(data, { where: { id: userId } });
+        if (rowsAffected === 0) {
+            return null;
+        }
+
+        const updatedUser = await User.findByPk(userId);
+        return updatedUser?.toJSON() as IUserShape;
     }
 
     async exclude(userId: number) {

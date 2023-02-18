@@ -1,3 +1,9 @@
-import { validateUser, tokenValidation, validateUpdatedUser } from './userMiddlleware';
+import {
+    validateUser,
+    tokenValidation,
+    validateUpdatedUser,
+} from "./userMiddlleware";
 
-export { validateUser, tokenValidation, validateUpdatedUser };
+import { validateProperty } from "./propertyMiddlleware";
+
+export { validateUser, tokenValidation, validateUpdatedUser, validateProperty };

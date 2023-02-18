@@ -1,6 +1,6 @@
 import express, { Express } from 'express'
 
-import { userRouter } from './app/routes';
+import * as Routes from './app/routes';
 
 import cors from 'cors'
 
@@ -13,6 +13,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/user", userRouter)
+app.use("/user", Routes.userRouter);
+app.use("/property", Routes.propertyRouter)
 
 export default app;

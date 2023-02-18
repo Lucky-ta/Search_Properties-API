@@ -5,14 +5,7 @@ export type IRequestResponse = {
     data: {
         message?: string;
         token?: string;
-        user?: IUserShape;
+        user?: IUserShape | Omit<IUserShape, "password">;
+        property?: IFormatProperty;
     };
 };
-
-export interface ICreateUserResponse {
-    status: number;
-    data?: {
-        message?: string;
-        user?: Omit<IUserShape, "password">;
-    };
-}

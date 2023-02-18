@@ -11,3 +11,10 @@ export const ediUserSchema = z.object({
     email: z.string().email().optional(),
     password: z.string().min(6).optional(),
 });
+
+export const propertySchema = z.object({
+    name: z.string().min(3).max(50),
+    isAvailable: z.boolean().optional(),
+    city: z.string().min(3),
+    street: z.string().min(3),
+});

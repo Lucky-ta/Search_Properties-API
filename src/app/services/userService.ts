@@ -1,7 +1,7 @@
 import { hashPassword, validatePassword } from "./bcrypt/bcryptFunctions";
 import { generateToken } from "./jwtToken/jwtFunctions";
 
-import { ICreateUserResponse, IRequestResponse } from "./interfaces";
+import { IRequestResponse } from "./interfaces";
 import { IUserShape } from "../interface";
 
 import { UserRepository } from "./repositories";
@@ -13,7 +13,7 @@ require("dotenv").config();
 class UserService {
   constructor(private readonly userRepository: typeof UserRepository) { }
 
-  async create(userData: IUserShape): Promise<ICreateUserResponse> {
+  async create(userData: IUserShape): Promise<IRequestResponse> {
     const { email, name, password } = userData;
     const existingUser = await this.userRepository.findByEmail(email);
 
@@ -85,7 +85,7 @@ class UserService {
     };
   }
 
-  async exclude(userId: number): Promise<ICreateUserResponse> {
+  async exclude(userId: number): Promise<IRequestResponse> {
     const user = await this.userRepository.findById(userId);
     console.log(user);
 

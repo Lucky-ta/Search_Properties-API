@@ -12,9 +12,11 @@ class PropertyRepository {
 
     async edit(
         property: Omit<IPropertyShape, "registeredBy">,
-        propertyId: number,
+        propertyId: number
     ): Promise<IPropertyShape | null> {
-        const [rowsAffected] = await Property.update(property, { where: { id: propertyId } });
+        const [rowsAffected] = await Property.update(property, {
+            where: { id: propertyId },
+        });
 
         if (rowsAffected === 0) {
             return null;
@@ -22,6 +24,10 @@ class PropertyRepository {
 
         const updatedProperty = await Property.findByPk(propertyId);
         return updatedProperty?.toJSON() as IPropertyShape;
+    }
+
+    async exclude(propertyId: number) {
+        return await Property.destroy({ where: { id: propertyId } });
     }
 }
 

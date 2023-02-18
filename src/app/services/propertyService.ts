@@ -41,7 +41,6 @@ class PropertyService {
     async edit(updatedProperty: IPropertyShape, user: IUserShape, propertyId: number): Promise<IRequestResponse> {
         try {
             const editedProperty = await this.propertyRepository.edit(updatedProperty, propertyId);
-            console.log(editedProperty);
 
             if (editedProperty === null) {
                 return {
@@ -64,7 +63,29 @@ class PropertyService {
         }
     }
 
-    // async exclude(propertyId: number): Promise<IRequestResponse> { }
+    async exclude(propertyId: number): Promise<IRequestResponse> {
+        try {
+            const excludeProperty = await this.propertyRepository.exclude(propertyId);
+
+            if (!excludeProperty) {
+                return {
+                    status: 404,
+                    data: { message: "Property not found" },
+                };
+            }
+
+            return {
+                status: 200,
+                data: { message: "Property successfully deleted" },
+            };
+
+        } catch (error) {
+            return {
+                status: 500,
+                data: { message: "Internal server error" },
+            };
+        }
+    }
 
     // async getOne(propertyId: number): Promise<IRequestResponse> { }
 

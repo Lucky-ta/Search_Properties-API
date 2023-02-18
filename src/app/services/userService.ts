@@ -98,7 +98,7 @@ class UserService {
 
     const deleteUser = await this.userRepository.exclude(userId);
 
-    return { status: 200, data: { user: deleteUser } };
+    return { status: 200, data: { message: "User successfully deleted" } };
   }
 }
 

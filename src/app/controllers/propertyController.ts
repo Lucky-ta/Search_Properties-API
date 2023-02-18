@@ -13,7 +13,7 @@ class PropertyController {
         this.service = service;
         this.createProperty = this.createProperty.bind(this);
         this.editProperty = this.editProperty.bind(this);
-        this.deleteProperty = this.deleteProperty.bind(this);
+        this.excludeProperty = this.excludeProperty.bind(this);
         this.getProperty = this.getProperty.bind(this);
         this.getAllProperties = this.getAllProperties.bind(this);
     }
@@ -30,16 +30,25 @@ class PropertyController {
 
     async editProperty(req: ICustomRequest, res: Response) {
         try {
-            const { propertyId } = req.params;
+            const propertyId = Number(req.params.propertyId);
             const { body, user } = req;
             const { status, data } = await this.service.edit(body, user, propertyId);
             return res.status(status).send(data);
         } catch (error) {
             handleError(res, error);
         }
-
     };
-    async deleteProperty(req: Request, res: Response) { };
+
+    async excludeProperty(req: Request, res: Response) {
+        try {
+            const propertyId = Number(req.params.propertyId);
+            const { status, data } = await this.service.exclude(propertyId);
+            return res.status(status).send(data);
+        } catch (error) {
+            handleError(res, error);
+        }
+    };
+
     async getProperty(req: Request, res: Response) { };
     async getAllProperties(req: Request, res: Response) { };
 }

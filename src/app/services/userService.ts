@@ -10,8 +10,8 @@ import { omitPassword } from "../utils";
 
 require("dotenv").config();
 
-export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+class UserService {
+  constructor(private readonly userRepository: typeof UserRepository) { }
 
   async create(userData: IUserShape): Promise<ICreateUserResponse> {
     const { email, name, password } = userData;
@@ -37,7 +37,6 @@ export class UserService {
 
   async login(loginData: IUserShape): Promise<ILoginResponse> {
     const { email, password } = loginData;
-
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
       return {
@@ -62,3 +61,5 @@ export class UserService {
     };
   }
 }
+
+export default UserService;

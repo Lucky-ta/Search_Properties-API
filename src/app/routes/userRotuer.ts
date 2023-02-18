@@ -1,7 +1,11 @@
 import { Router } from "express";
 
-const userRouter = Router();
+import { UserController } from "../controllers";
 
-userRouter.post('/', )
+import { validateUser } from "../middlewares";
+
+const userRouter = Router();
+userRouter.post('/', validateUser, UserController.createUser);
+userRouter.post('/login', UserController.loginUser);
 
 export { userRouter };

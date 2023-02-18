@@ -4,3 +4,7 @@ export interface IUserShape {
     password: string;
     id?: number;
 }
+
+export interface IUserRequestResponse {
+    dataValues: IUserShape;
+}

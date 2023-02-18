@@ -1,8 +1,13 @@
 import { IUserShape } from "../../interface";
 
-const User = require("../../../db/models");
+import { User } from "../../../db/models";
 
-export class UserRepository {
+class UserRepository {
+    constructor() {
+        this.findByEmail = this.findByEmail.bind(this);
+        this.create = this.create.bind(this);
+    }
+
     async findByEmail(email: string) {
         return User.findOne({
             where: { email },
@@ -13,3 +18,5 @@ export class UserRepository {
         return User.create(data);
     }
 }
+
+export default new UserRepository();

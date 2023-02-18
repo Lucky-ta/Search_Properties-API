@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
 
+import { UserRepository } from "../services/repositories";
 import { UserService } from "../services";
 
 import { handleError } from "../utils";
 
-export class UserController {
+class UserController {
     private service: UserService;
 
     constructor(service: UserService) {
         this.service = service;
+        this.createUser = this.createUser.bind(this);
+        this.loginUser = this.loginUser.bind(this);
     }
 
     async createUser(req: Request, res: Response) {
@@ -31,3 +34,5 @@ export class UserController {
         }
     }
 }
+
+export default new UserController(new UserService(UserRepository));

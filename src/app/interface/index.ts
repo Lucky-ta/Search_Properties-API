@@ -1,3 +1,3 @@
-import { IUserShape } from "./interfaces";
+import { IUserShape, IUserRequestResponse } from "./interfaces";
 
-export { IUserShape }
+export { IUserShape, IUserRequestResponse }

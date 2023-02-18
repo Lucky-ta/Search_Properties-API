@@ -1,4 +1,4 @@
-import { IUserShape } from "../interface";
+import { IFormatProperty, IUserShape } from "../interface";
 
 export type IRequestResponse = {
     status: number;
@@ -7,5 +7,6 @@ export type IRequestResponse = {
         token?: string;
         user?: IUserShape | Omit<IUserShape, "password">;
         property?: IFormatProperty;
+        properties?: IFormatProperty[];
     };
 };

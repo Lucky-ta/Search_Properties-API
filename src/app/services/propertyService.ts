@@ -96,21 +96,22 @@ class PropertyService {
         }
     }
 
-    async getOne(propertyId: number, user: IUserShape): Promise<IRequestResponse> {
+    async getOwnProperties(user: IUserShape): Promise<IRequestResponse> {
         try {
-            const propertyById = await this.propertyRepository.findByPk(propertyId);
+            const propertiesById = await this.propertyRepository.findAllByPk(user.id);
 
-            if (!propertyById) {
+            if (!propertiesById) {
                 return {
                     status: 404,
                     data: { message: "Property not found" },
                 };
             }
 
-            const property = formatProperty(propertyById, user);
+            const properties = propertiesById.map((property) => formatProperty(property, user));
+
             return {
                 status: 200,
-                data: { property },
+                data: { properties },
             };
         } catch (error) {
             return {
@@ -120,7 +121,30 @@ class PropertyService {
         }
     }
 
-    async getAll(user: IUserShape): Promise<IRequestResponse> { }
+    async getAll(user: IUserShape): Promise<IRequestResponse> {
+        try {
+            const allProperties = await this.propertyRepository.findAll();
+
+            if (!allProperties) {
+                return {
+                    status: 404,
+                    data: { message: "Property not found" },
+                };
+            }
+
+            const properties = allProperties.map((property) => formatProperty(property, user));
+
+            return {
+                status: 200,
+                data: { properties },
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                data: { message: "Internal server error" },
+            };
+        }
+    }
 }
 
 export default PropertyService;

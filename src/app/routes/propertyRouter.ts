@@ -9,7 +9,7 @@ const propertyRouter = Router();
 propertyRouter.post("/", tokenValidation, validateProperty, propertyController.createProperty);
 propertyRouter.patch("/:propertyId", tokenValidation, validateProperty, propertyController.editProperty);
 propertyRouter.delete("/:propertyId", tokenValidation, propertyController.excludeProperty);
-propertyRouter.get("/:propertyId", tokenValidation, propertyController.getOneProperty);
+propertyRouter.get("/:userId", tokenValidation, propertyController.getOwnProperties);
 propertyRouter.get("/", tokenValidation, propertyController.getAllProperties);
 
 export { propertyRouter };

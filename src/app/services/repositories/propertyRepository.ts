@@ -26,12 +26,16 @@ class PropertyRepository {
         return updatedProperty?.toJSON() as IPropertyShape;
     }
 
-    async exclude(propertyId: number) {
+    async exclude(propertyId: number): Promise<0 | 1 | null> {
         return await Property.destroy({ where: { id: propertyId } });
     }
 
-    async findByPk(propertyId: number) {
-        return await Property.findByPk(propertyId);
+    async findAllByPk(userId: number): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
+        return await Property.findAll({ where: { registeredBy: userId }, exclude: ["registeredBy"] });
+    }
+
+    async findAll(): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
+        return await Property.findAll({ exclude: ['registeredBy'] })
     }
 }
 

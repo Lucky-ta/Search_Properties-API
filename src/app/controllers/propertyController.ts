@@ -14,7 +14,7 @@ class PropertyController {
         this.createProperty = this.createProperty.bind(this);
         this.editProperty = this.editProperty.bind(this);
         this.excludeProperty = this.excludeProperty.bind(this);
-        this.getOneProperty = this.getOneProperty.bind(this);
+        this.getOwnProperties = this.getOwnProperties.bind(this);
         this.getAllProperties = this.getAllProperties.bind(this);
     }
 
@@ -49,11 +49,10 @@ class PropertyController {
         }
     };
 
-    async getOneProperty(req: ICustomRequest, res: Response) {
+    async getOwnProperties(req: ICustomRequest, res: Response) {
         try {
-            const propertyId = Number(req.params.propertyId);
             const { user } = req;
-            const { status, data } = await this.service.getOne(propertyId, user);
+            const { status, data } = await this.service.getOwnProperties(user);
             return res.status(status).send(data);
         } catch (error) {
             handleError(res, error);

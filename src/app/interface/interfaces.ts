@@ -13,7 +13,7 @@ export interface IPropertyShape {
     isAvailable: boolean;
     city: string;
     street: string;
-    registeredBy: Omit<IUserShape, "password">
+    registeredBy?: Omit<IUserShape, "password">
     id?: number;
 }
 

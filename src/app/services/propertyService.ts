@@ -38,7 +38,31 @@ class PropertyService {
         }
     }
 
-    // async edit(updatedProperty: IPropertyShape): Promise<IRequestResponse> { }
+    async edit(updatedProperty: IPropertyShape, user: IUserShape, propertyId: number): Promise<IRequestResponse> {
+        try {
+            const editedProperty = await this.propertyRepository.edit(updatedProperty, propertyId);
+            console.log(editedProperty);
+
+            if (editedProperty === null) {
+                return {
+                    status: 404,
+                    data: { message: "Property already up to date" },
+                };
+            }
+
+            const property = formatProperty(editedProperty, user);
+
+            return {
+                status: 200,
+                data: { property },
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                data: { message: "Internal server error" },
+            };
+        }
+    }
 
     // async exclude(propertyId: number): Promise<IRequestResponse> { }
 

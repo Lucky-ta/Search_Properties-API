@@ -28,7 +28,17 @@ class PropertyController {
         }
     };
 
-    async editProperty(req: Request, res: Response) { };
+    async editProperty(req: ICustomRequest, res: Response) {
+        try {
+            const { propertyId } = req.params;
+            const { body, user } = req;
+            const { status, data } = await this.service.edit(body, user, propertyId);
+            return res.status(status).send(data);
+        } catch (error) {
+            handleError(res, error);
+        }
+
+    };
     async deleteProperty(req: Request, res: Response) { };
     async getProperty(req: Request, res: Response) { };
     async getAllProperties(req: Request, res: Response) { };

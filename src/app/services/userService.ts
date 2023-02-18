@@ -80,8 +80,6 @@ class UserService {
 
 
       const updatedUser = await this.userRepository.edit(updatedUserData, userId);
-      console.log(updatedUser);
-
       const token = generateToken(updatedUser);
 
       return {
@@ -98,7 +96,6 @@ class UserService {
 
   async exclude(userId: number): Promise<IRequestResponse> {
     const user = await this.userRepository.findById(userId);
-    console.log(user);
 
     if (!user) {
       return {

@@ -3,27 +3,28 @@ import { IUserShape } from "../../interface";
 import { User } from "../../../db/models";
 
 class UserRepository {
-    constructor() {
-        this.findByEmail = this.findByEmail.bind(this);
-        this.create = this.create.bind(this);
-    }
+    constructor() { }
 
     async findByEmail(email: string) {
-        return User.findOne({
+        return await User.findOne({
             where: { email },
         });
     }
 
     async findById(userId: number) {
-        return User.findByPk(userId);
+        return await User.findByPk(userId);
     }
 
     async create(data: IUserShape) {
-        return User.create(data);
+        return await User.create(data);
     }
 
     async edit(data: IUserShape, userId: number) {
-        return User.update(data, { where: { id: userId } })
+        return await User.update(data, { where: { id: userId } })
+    }
+
+    async exclude(userId: number) {
+        return await User.destroy({ where: { id: userId } });
     }
 }
 

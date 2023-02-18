@@ -1,7 +1,7 @@
 import { hashPassword, validatePassword } from "./bcrypt/bcryptFunctions";
 import { generateToken } from "./jwtToken/jwtFunctions";
 
-import { ICreateUserResponse, ILoginResponse } from "./interfaces";
+import { ICreateUserResponse, IRequestResponse } from "./interfaces";
 import { IUserShape } from "../interface";
 
 import { UserRepository } from "./repositories";
@@ -15,19 +15,23 @@ class UserService {
 
   async create(userData: IUserShape): Promise<ICreateUserResponse> {
     const { email, name, password } = userData;
-
     const existingUser = await this.userRepository.findByEmail(email);
+
     if (existingUser) {
       return {
         status: 400,
-        data: { message: "A user with that email already exists" },
+        data: { message: 'A user with that email already exists' },
       };
     }
 
     const hashedPassword = await hashPassword(password);
-    const newUser = await this.userRepository.create({ name, email, password: hashedPassword });
+    const newUser = await this.userRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
 
-    const userWithoutPassword: Omit<IUserShape, "password"> = omitPassword(newUser);
+    const userWithoutPassword = omitPassword(newUser);
 
     return {
       status: 201,
@@ -35,21 +39,23 @@ class UserService {
     };
   }
 
-  async login(loginData: IUserShape): Promise<ILoginResponse> {
+  async login(loginData: IUserShape): Promise<IRequestResponse> {
     const { email, password } = loginData;
     const user = await this.userRepository.findByEmail(email);
+
     if (!user) {
       return {
         status: 404,
-        data: { message: "User not found" },
+        data: { message: 'User not found' },
       };
     }
 
     const isValidPassword = await validatePassword(password, user.password);
+
     if (!isValidPassword) {
       return {
         status: 401,
-        data: { message: "Invalid password" },
+        data: { message: 'Invalid password' },
       };
     }
 
@@ -61,20 +67,38 @@ class UserService {
     };
   }
 
-  async edit(updatedUserData: IUserShape, userId: number) {
+  async edit(updatedUserData: IUserShape, userId: number): Promise<IRequestResponse> {
     const user = await this.userRepository.findById(userId);
+
     if (!user) {
       return {
         status: 404,
-        data: { message: "User not found" },
+        data: { message: 'User not found' },
       };
     }
 
     const updatedUser = await this.userRepository.edit(updatedUserData, userId);
+
     return {
       status: 200,
-      data: { user: updatedUser }
+      data: { user: updatedUser },
+    };
+  }
+
+  async exclude(userId: number): Promise<ICreateUserResponse> {
+    const user = await this.userRepository.findById(userId);
+    console.log(user);
+
+    if (!user) {
+      return {
+        status: 404,
+        data: { message: 'User not found' },
+      };
     }
+
+    const deleteUser = await this.userRepository.exclude(userId);
+
+    return { status: 200, data: { user: deleteUser } };
   }
 }
 

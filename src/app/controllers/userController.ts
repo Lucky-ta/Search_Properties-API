@@ -13,6 +13,7 @@ class UserController {
         this.createUser = this.createUser.bind(this);
         this.loginUser = this.loginUser.bind(this);
         this.editUser = this.editUser.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
 
     async createUser(req: Request, res: Response) {
@@ -38,9 +39,18 @@ class UserController {
     async editUser(req: Request, res: Response) {
         try {
             const { body } = req;
-            const { id } = req.params;
-            const parseNumberId: number = Number(id);
-            const { status, data } = await this.service.edit(body, parseNumberId);
+            const userId = Number(req.params.id);
+            const { status, data } = await this.service.edit(body, userId);
+            return res.status(status).send(data);
+        } catch (error) {
+            handleError(res, error);
+        }
+    }
+
+    async deleteUser(req: Request, res: Response) {
+        try {
+            const userId = Number(req.params.id);
+            const { status, data } = await this.service.exclude(userId);
             return res.status(status).send(data);
         } catch (error) {
             handleError(res, error);

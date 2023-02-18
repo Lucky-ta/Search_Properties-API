@@ -8,5 +8,6 @@ const userRouter = Router();
 userRouter.post('/', validateUser, UserController.createUser);
 userRouter.post('/login', UserController.loginUser);
 userRouter.patch('/:id', tokenValidation, validateUpdatedUser, UserController.editUser);
+userRouter.delete('/:id', tokenValidation, UserController.deleteUser);
 
 export { userRouter };

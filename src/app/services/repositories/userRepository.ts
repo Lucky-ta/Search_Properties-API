@@ -14,8 +14,16 @@ class UserRepository {
         });
     }
 
+    async findById(userId: number) {
+        return User.findByPk(userId);
+    }
+
     async create(data: IUserShape) {
         return User.create(data);
+    }
+
+    async edit(data: IUserShape, userId: number) {
+        return User.update(data, { where: { id: userId } })
     }
 }
 

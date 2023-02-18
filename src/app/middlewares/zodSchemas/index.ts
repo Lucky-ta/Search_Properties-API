@@ -1,3 +1,3 @@
-import { userSchema } from './schemas'
+import { userSchema, ediUserSchema } from './schemas'
 
-export { userSchema };
+export { userSchema, ediUserSchema };

@@ -60,6 +60,22 @@ class UserService {
       data: { token },
     };
   }
+
+  async edit(updatedUserData: IUserShape, userId: number) {
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      return {
+        status: 404,
+        data: { message: "User not found" },
+      };
+    }
+
+    const updatedUser = await this.userRepository.edit(updatedUserData, userId);
+    return {
+      status: 200,
+      data: { user: updatedUser }
+    }
+  }
 }
 
 export default UserService;

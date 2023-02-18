@@ -1,3 +1,3 @@
-import { validateUser } from './userMiddlleware';
+import { validateUser, tokenValidation, validateUpdatedUser } from './userMiddlleware';
 
-export { validateUser };
+export { validateUser, tokenValidation, validateUpdatedUser };

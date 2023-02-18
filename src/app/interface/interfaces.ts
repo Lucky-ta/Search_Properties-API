@@ -8,3 +8,7 @@ export interface IUserShape {
 export interface IUserRequestResponse {
     dataValues: IUserShape;
 }
+
+export interface ICustomRequest extends Request {
+    user?: any;
+}

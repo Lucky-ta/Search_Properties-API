@@ -10,7 +10,10 @@ require("dotenv").config();
 class PropertyService {
     constructor(private readonly propertyRepository: typeof PropertyRepository) { }
 
-    async create(newProperty: IPropertyShape, user: IUserShape): Promise<IRequestResponse> {
+    async create(
+        newProperty: IPropertyShape,
+        user: IUserShape
+    ): Promise<IRequestResponse> {
         try {
             const createdProperty = await this.propertyRepository.create(
                 newProperty,
@@ -38,9 +41,16 @@ class PropertyService {
         }
     }
 
-    async edit(updatedProperty: IPropertyShape, user: IUserShape, propertyId: number): Promise<IRequestResponse> {
+    async edit(
+        updatedProperty: IPropertyShape,
+        user: IUserShape,
+        propertyId: number
+    ): Promise<IRequestResponse> {
         try {
-            const editedProperty = await this.propertyRepository.edit(updatedProperty, propertyId);
+            const editedProperty = await this.propertyRepository.edit(
+                updatedProperty,
+                propertyId
+            );
 
             if (editedProperty === null) {
                 return {
@@ -78,7 +88,6 @@ class PropertyService {
                 status: 200,
                 data: { message: "Property successfully deleted" },
             };
-
         } catch (error) {
             return {
                 status: 500,
@@ -87,9 +96,31 @@ class PropertyService {
         }
     }
 
-    // async getOne(propertyId: number): Promise<IRequestResponse> { }
+    async getOne(propertyId: number, user: IUserShape): Promise<IRequestResponse> {
+        try {
+            const propertyById = await this.propertyRepository.findByPk(propertyId);
 
-    // async getAll(userId: number): Promise<IRequestResponse> { }
+            if (!propertyById) {
+                return {
+                    status: 404,
+                    data: { message: "Property not found" },
+                };
+            }
+
+            const property = formatProperty(propertyById, user);
+            return {
+                status: 200,
+                data: { property },
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                data: { message: "Internal server error" },
+            };
+        }
+    }
+
+    async getAll(user: IUserShape): Promise<IRequestResponse> { }
 }
 
 export default PropertyService;

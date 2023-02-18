@@ -29,6 +29,10 @@ class PropertyRepository {
     async exclude(propertyId: number) {
         return await Property.destroy({ where: { id: propertyId } });
     }
+
+    async findByPk(propertyId: number) {
+        return await Property.findByPk(propertyId);
+    }
 }
 
 export default new PropertyRepository();

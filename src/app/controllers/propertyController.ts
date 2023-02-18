@@ -14,7 +14,7 @@ class PropertyController {
         this.createProperty = this.createProperty.bind(this);
         this.editProperty = this.editProperty.bind(this);
         this.excludeProperty = this.excludeProperty.bind(this);
-        this.getProperty = this.getProperty.bind(this);
+        this.getOneProperty = this.getOneProperty.bind(this);
         this.getAllProperties = this.getAllProperties.bind(this);
     }
 
@@ -49,8 +49,26 @@ class PropertyController {
         }
     };
 
-    async getProperty(req: Request, res: Response) { };
-    async getAllProperties(req: Request, res: Response) { };
+    async getOneProperty(req: ICustomRequest, res: Response) {
+        try {
+            const propertyId = Number(req.params.propertyId);
+            const { user } = req;
+            const { status, data } = await this.service.getOne(propertyId, user);
+            return res.status(status).send(data);
+        } catch (error) {
+            handleError(res, error);
+        }
+    };
+
+    async getAllProperties(req: ICustomRequest, res: Response) {
+        try {
+            const { user } = req;
+            const { status, data } = await this.service.getAll(user);
+            return res.status(status).send(data);
+        } catch (error) {
+            handleError(res, error);
+        }
+    };
 }
 
 export default new PropertyController(new PropertyService(PropertyRepository));

@@ -1,4 +1,4 @@
 import UserRepository from "./userRepository";
-import propertyRepository from "./propertyRepository";
+import PropertyRepository from "./propertyRepository";
 
 export { UserRepository, PropertyRepository };

@@ -30,12 +30,17 @@ class PropertyRepository {
         return await Property.destroy({ where: { id: propertyId } });
     }
 
-    async findAllByPk(userId: number): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
-        return await Property.findAll({ where: { registeredBy: userId }, exclude: ["registeredBy"] });
+    async findAllByPk(
+        userId: number
+    ): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
+        return await Property.findAll({
+            where: { registeredBy: userId },
+            exclude: ["registeredBy"],
+        });
     }
 
     async findAll(): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
-        return await Property.findAll({ exclude: ['registeredBy'] })
+        return await Property.findAll({ exclude: ["registeredBy"] });
     }
 }
 

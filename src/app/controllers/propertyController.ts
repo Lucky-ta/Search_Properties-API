@@ -26,7 +26,7 @@ class PropertyController {
         } catch (error) {
             handleError(res, error);
         }
-    };
+    }
 
     async editProperty(req: ICustomRequest, res: Response) {
         try {
@@ -37,7 +37,7 @@ class PropertyController {
         } catch (error) {
             handleError(res, error);
         }
-    };
+    }
 
     async excludeProperty(req: Request, res: Response) {
         try {
@@ -47,7 +47,7 @@ class PropertyController {
         } catch (error) {
             handleError(res, error);
         }
-    };
+    }
 
     async getOwnProperties(req: ICustomRequest, res: Response) {
         try {
@@ -57,7 +57,7 @@ class PropertyController {
         } catch (error) {
             handleError(res, error);
         }
-    };
+    }
 
     async getAllProperties(req: ICustomRequest, res: Response) {
         try {
@@ -67,7 +67,7 @@ class PropertyController {
         } catch (error) {
             handleError(res, error);
         }
-    };
+    }
 }
 
 export default new PropertyController(new PropertyService(PropertyRepository));

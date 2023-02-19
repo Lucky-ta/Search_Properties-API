@@ -67,7 +67,7 @@ class UserService {
     };
   }
 
-  async edit(updatedUserData: Omit<IUserShape, "password">, userId: number): Promise<IRequestResponse> {
+  async edit(updatedUserData: IUserShape, userId: number): Promise<IRequestResponse> {
     const user = await this.userRepository.findById(userId);
 
     try {

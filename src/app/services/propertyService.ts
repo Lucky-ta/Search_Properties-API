@@ -107,7 +107,9 @@ class PropertyService {
                 };
             }
 
-            const properties = propertiesById.map((property) => formatProperty(property, user));
+            const properties = propertiesById.map((property) =>
+                formatProperty(property, user)
+            );
 
             return {
                 status: 200,
@@ -132,7 +134,9 @@ class PropertyService {
                 };
             }
 
-            const properties = allProperties.map((property) => formatProperty(property, user));
+            const properties = allProperties.map((property) =>
+                formatProperty(property, user)
+            );
 
             return {
                 status: 200,

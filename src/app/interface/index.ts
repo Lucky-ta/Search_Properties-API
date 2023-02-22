@@ -3,7 +3,7 @@ import {
     IUserRequestResponse,
     ICustomRequest,
     IPropertyShape,
-    IFormatProperty
+    IFormatProperty,
 } from "./interfaces";
 
 export { IUserShape, IUserRequestResponse, ICustomRequest, IPropertyShape, IFormatProperty };

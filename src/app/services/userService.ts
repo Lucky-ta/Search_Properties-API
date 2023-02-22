@@ -7,9 +7,6 @@ import { IUserShape } from "../interface";
 import { UserRepository } from "./repositories";
 import { omitPassword } from "../utils";
 
-
-require("dotenv").config();
-
 class UserService {
   constructor(private readonly userRepository: typeof UserRepository) { }
 

@@ -1,7 +1,6 @@
 import { IUserShape } from "../../interface";
 
-import { User } from "../../../db/models";
-import { hashPassword } from "../bcrypt/bcryptFunctions";
+import { User, Property } from "../../../db/models";
 
 class UserRepository {
     constructor() { }
@@ -20,19 +19,15 @@ class UserRepository {
         return await User.create(data);
     }
 
-    async edit(data: IUserShape, userId: number): Promise<IUserShape | null> {
-        const hashedPassword = await hashPassword(data.password);
-
-        const [rowsAffected] = await User.update({ ...data, password: hashedPassword }, { where: { id: userId } });
-        if (rowsAffected === 0) {
-            return null;
-        }
+    async edit(data: Omit<IUserShape, "password">, userId: number): Promise<IUserShape | null> {
+        await User.update(data, { where: { id: userId } });
 
         const updatedUser = await User.findByPk(userId);
         return updatedUser?.toJSON() as IUserShape;
     }
 
     async exclude(userId: number) {
+        await Property.destroy({ where: { registeredBy: userId } });
         return await User.destroy({ where: { id: userId } });
     }
 }

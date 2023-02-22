@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 
 import { IUserShape } from "../../interface";
 
+require("dotenv").config();
+
 const generateToken = (user: IUserShape) => {
     const token: string = jwt.sign(
         { id: user.id, name: user.name, email: user.email },

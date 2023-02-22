@@ -25,6 +25,7 @@ export interface IFormatProperty extends Omit<IPropertyShape, "street" | "city">
     registeredBy: {
         name: string;
         email: string;
+        id: number;
     },
 }
 

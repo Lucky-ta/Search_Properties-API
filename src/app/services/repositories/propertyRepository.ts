@@ -1,6 +1,6 @@
 import { IPropertyShape, IUserShape } from "../../interface";
 
-import { Property } from "../../../db/models";
+import { Property, User } from "../../../db/models";
 
 class PropertyRepository {
     async create(
@@ -32,15 +32,33 @@ class PropertyRepository {
 
     async findAllByPk(
         userId: number
-    ): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
+    ): Promise<IPropertyShape | null> {
         return await Property.findAll({
             where: { registeredBy: userId },
-            exclude: ["registeredBy"],
+            attributes: { exclude: ["registeredBy"] },
+            include: [
+                {
+                    model: User,
+                    required: true,
+                    as: 'registeredByUser', // add alias here
+                    attributes: ["name", "email", "id"],
+                },
+            ],
         });
     }
 
-    async findAll(): Promise<Omit<IPropertyShape, "registeredBy">[] | null> {
-        return await Property.findAll({ exclude: ["registeredBy"] });
+    async findAll(): Promise<IPropertyShape[] | null> {
+        return await Property.findAll({
+            attributes: { exclude: ["registeredBy"] },
+            include: [
+                {
+                    model: User,
+                    required: true,
+                    as: 'registeredByUser', // add alias here
+                    attributes: ["name", "email", "id"],
+                },
+            ],
+        });
     }
 }
 

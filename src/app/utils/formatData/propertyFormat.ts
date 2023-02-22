@@ -15,6 +15,8 @@ export function formatProperty(
         registeredBy: {
             name: user.name,
             email: user.email,
+            id: user.id
         },
+        id: createdProperty.id,
     };
 }

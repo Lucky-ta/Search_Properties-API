@@ -5,8 +5,6 @@ import { formatProperty } from "../utils/formatData";
 
 import PropertyRepository from "./repositories/propertyRepository";
 
-require("dotenv").config();
-
 class PropertyService {
     constructor(private readonly propertyRepository: typeof PropertyRepository) { }
 
@@ -34,10 +32,13 @@ class PropertyService {
                 data: { property },
             };
         } catch (error) {
-            return {
-                status: 400,
-                data: { message: "Property already registered" },
-            };
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return {
+                    status: 400,
+                    data: { message: "Property already registered" },
+                };
+            }
+            throw error;
         }
     }
 
@@ -96,20 +97,16 @@ class PropertyService {
         }
     }
 
-    async getOwnProperties(user: IUserShape): Promise<IRequestResponse> {
+    async getOwnProperties(user: IUserShape) {
         try {
-            const propertiesById = await this.propertyRepository.findAllByPk(user.id);
+            const properties = await this.propertyRepository.findAllByPk(user.id);
 
-            if (!propertiesById) {
+            if (!properties) {
                 return {
                     status: 404,
                     data: { message: "Property not found" },
                 };
             }
-
-            const properties = propertiesById.map((property) =>
-                formatProperty(property, user)
-            );
 
             return {
                 status: 200,
@@ -123,20 +120,16 @@ class PropertyService {
         }
     }
 
-    async getAll(user: IUserShape): Promise<IRequestResponse> {
+    async getAll() {
         try {
-            const allProperties = await this.propertyRepository.findAll();
+            const properties = await this.propertyRepository.findAll();
 
-            if (!allProperties) {
+            if (!properties) {
                 return {
                     status: 404,
                     data: { message: "Property not found" },
                 };
             }
-
-            const properties = allProperties.map((property) =>
-                formatProperty(property, user)
-            );
 
             return {
                 status: 200,
